@@ -43,6 +43,9 @@
 <button onclick="addFront()">Add front</button>
 <button onclick="removeEveryOther()">Remove</button>
 
+<button onclick="shuffleItems()">Shuffle</button>
+
+
 
 </body>
 
@@ -91,6 +94,36 @@ function removeEveryOther() {
         }
     }
 }
+
+function shuffleItems() {
+    // Get all items in the list
+    let container = document.getElementById("target");
+    let items = container.getElementsByClassName("divlist");
+
+    // Need at least two items to shuffle
+    if (items.length < 2) {
+        return;
+    }
+
+    // Pick two different random positions
+    let firstIndex = Math.floor(Math.random() * items.length);
+    let secondIndex = Math.floor(Math.random() * (items.length - 1));
+
+    if (secondIndex >= firstIndex) {
+        secondIndex++;
+    }
+
+    let firstItem = items[firstIndex];
+    let secondItem = items[secondIndex];
+
+    // Swap the two div elements
+    let placeholder = document.createComment("swap");
+
+    container.replaceChild(placeholder, firstItem);
+    container.replaceChild(firstItem, secondItem);
+    container.replaceChild(secondItem, placeholder);
+}
+
 
 
 </script>

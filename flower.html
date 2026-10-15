@@ -156,10 +156,36 @@
     let locationsVisited = 0;
     let lastLocation = 0;
 
-    let poisonLocation = 19;
-    let roseLocation = 14;
-    let lilyLocations = [3, 25];
-    let daisyLocations = [2, 5, 11, 20, 21];
+   
+    // Bonus: Random flower locations
+    let positions = Array.from({length: 36}, (_, i) => i);
+
+    // Shuffle positions randomly
+    for (let i = positions.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+
+        let temp = positions[i];
+        positions[i] = positions[j];
+        positions[j] = temp;
+    }
+
+    // Give each plant a different random location
+    let poisonLocation = positions.pop();
+    let roseLocation = positions.pop();
+
+    let lilyLocations = [
+        positions.pop(),
+        positions.pop()
+    ];
+
+    let daisyLocations = [
+        positions.pop(),
+        positions.pop(),
+        positions.pop(),
+        positions.pop(),
+        positions.pop()
+    ];
+
 
     let gameOver = false;
     let scoredPositions = [];
@@ -216,7 +242,56 @@
 
         document.getElementById("score").textContent =
             "Score is " + score + ".";
+       
+         if (!gameOver) {
+            moveRose(position);
+        }
+     
     }
+
+    
+function moveRose(playerPosition) {
+    let row = Math.floor(roseLocation / 6);
+    let col = roseLocation % 6;
+
+    let possibleMoves = [];
+
+    // Find valid directions
+    if (row > 0) {
+        possibleMoves.push(roseLocation - 6);
+    }
+
+    if (row < 5) {
+        possibleMoves.push(roseLocation + 6);
+    }
+
+    if (col > 0) {
+        possibleMoves.push(roseLocation - 1);
+    }
+
+    if (col < 5) {
+        possibleMoves.push(roseLocation + 1);
+    }
+
+    // Choose a random direction
+    let randomIndex = Math.floor(
+        Math.random() * possibleMoves.length
+    );
+
+    roseLocation = possibleMoves[randomIndex];
+
+    // End game if rose lands on player
+    if (roseLocation === playerPosition) {
+        gameOver = true;
+
+        document.getElementById("help").textContent =
+            "Game Over! The rose landed on you!";
+
+        document.getElementById(ids[playerPosition]).src =
+            "images/rose.jfif";
+    }
+}
+
 
     
 function help() {

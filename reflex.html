@@ -46,17 +46,21 @@ function recordTime() {
     console.log("Halt button pressed at: " + haltTime);
 }
 
+
 function beginTime() {
     haltTime = undefined;
 
-    document.getElementById("target").innerHTML = "Your time";
-    document.getElementById("counter").innerHTML = "5";
+    // Bonus: Random starting number from 2 to 10
+    let startNumber = Math.floor(Math.random() * 9) + 2;
 
-    // Countdown from 5 to 0
-    for (let i = 0; i <= 5; i++) {
+    document.getElementById("target").innerHTML = "Your time";
+    document.getElementById("counter").innerHTML = startNumber;
+
+    // Countdown from random number to 0
+    for (let i = 0; i <= startNumber; i++) {
         setTimeout(function() {
             document.getElementById("counter").innerHTML = i;
-        }, (5 - i) * 1000);
+        }, (startNumber - i) * 1000);
     }
 
     // Check how close the player was to zero
@@ -73,8 +77,9 @@ function beginTime() {
             document.getElementById("target").innerHTML =
                 "Time was " + elapsedTime + " milliseconds before zero.";
         }
-    }, 5000);
+    }, startNumber * 1000);
 }
+
 
 
 
